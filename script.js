@@ -32,10 +32,10 @@ const menuDatabase = [
     ],
 ];
 
-
+// get ul from HTML
 const menuUl=document.getElementById("ul");
 
-
+// create li element
 for (let i=0; i< menuDatabase.length; i++){
     const li = document.createElement("li");
     
