@@ -15,6 +15,8 @@ console.log('Hello world!')
 // 6.Attach these 4 elements to the < li > created before
 // 7.Attach the < li > to the < ul > element
 // 8.Create a ‘vegetarian’ and ‘meat’ button that filters the products on the page.
+
+
 const menuDatabase = [
     ["Papadum", 20, "vegetarian", "https://www.shutterstock.com/image-photo/deep-fried-khichiya-papad-traditional-260nw-1076490656.jpg",
     ],
@@ -28,75 +30,87 @@ const menuDatabase = [
     ],
     [
         "Samosa", 50, "vegetarian",
-        "https://img.mummum.dk/wp-content/uploads/2022/03/IMG_9814-min.jpg",
+        "http://img.mummum.dk/wp-content/uploads/2022/03/IMG_9814-min.jpg",
     ],
 ];
 
 // get ul from HTML
-const menuUl=document.getElementById("ul");
+const list = document.getElementById("list");
 
-// create li element
-for (let i=0; i< menuDatabase.length; i++){
-    const li = document.createElement("li");
-    
-    // creat image element
-    const pImage = document.createElement("img");
-    pImage.src=menuDatabase[i][3];
-    pImage.alt="${menuDatabase[i][0]}";
-    pImage.style.width="150px"
-    li.appendChild(pImage);
+function createMenu(database) {
 
-    // create Product name <p>
-    const productName=document.createElement("P");
-    productName.textContent=menuDatabase[i][0];
-    li.appendChild(productName);
+    // clear previous list
+    list.innerHTML = "";
 
-    //create price <P>
+    // 3.Use any type of the for loops you think might work to loop through the database(attached in next slide).
+    for (const dish of database) {
 
-    const price=document.createElement("p");
-    price.textContent=menuDatabase[i][1];
-    li.appendChild(price);
+        // 4.In each iteration create a < li > element
+        const listItem = document.createElement("li");
 
-    //create category <p>
-    const category=document.createElement("p");
-    category.textContent=menuDatabase[i][2];
-    li.appendChild(category);
+        // 5.Create an < img > element for the product image, and 3 < p > elements for product name, price and category(using createElement).
+        const productImage = document.createElement("img");
+        productImage.src = dish[3];
+        productImage.style.width = "250px"
 
-    menuUl.appendChild(li);
+        const productName = document.createElement("p");
+        productName.textContent = `Name: ${dish[0]}`;
+
+        const productPrice = document.createElement("p");
+        productPrice.textContent = `Name: ${dish[1]}`;
+
+        const productCategory = document.createElement("p");
+        productCategory.textContent = `Name: ${dish[2]}`;
+
+        // 6.Attach these 4 elements to the < li > created before
+
+        listItem.append(productImage);
+        listItem.append(productName);
+        listItem.append(productPrice);
+        listItem.append(productCategory);
+        // 7.Attach the < li > to the < ul > element
+
+
+        list.append(listItem);
+
     }
 
-
-    //create all dishes ,vegetarian and meat buttons
-    
-    const main=document.querySelector("main");
-     //All dishes button
-    const btnAllDishes=document.createElement("button");
-    btnAllDishes.style.alignContent = "center";
-    btnAllDishes.textContent = "All dishes";
+}
 
 
-    main.appendChild(btnAllDishes);
-   
-   // Vegitarian button
-    const btnVeg=document.createElement("button");
-    btnVeg.style.alignContent="center";
-    btnVeg.textContent="Vegetarian";
-    btnVeg.addEventListener("click",()=>{
-        // const vegeDishes=menuDatabase.filter(element=>element[2]==="vegetarian");
-        menuUl.innerHTML="";
-        menuUl.innerHTML = menuDatabase.filter(element => element[2] === "vegetarian");
-    })
-    main.appendChild(btnVeg);
+// Invoke the createMenu function with an undiltered menuDatabase to display full menu.
 
-    // Meat button
+createMenu(menuDatabase);
 
-    const btnMeat = document.createElement("button");
-    btnMeat.style.alignContent = "center";
-    btnMeat.textContent = "Meat";
-    btnMeat.addEventListener("click",()=>{
-        menuUl.innerHTML="";
-        menuUl.innerHTML = menuDatabase.filter(element => element[2] === "meat");
-    })
-    main.appendChild(btnMeat);
 
- 
+// 8.Create a ‘vegetarian’ and ‘meat’ button that filters the products on the page.
+
+const vegetarianBtn = document.createElement("button");
+vegetarianBtn.textContent = "Vegetarian";
+
+const meatBtn = document.createElement("button");
+meatBtn.textContent = "Meat";
+
+const allDishesBtn = document.createElement("button");
+allDishesBtn.textContent = "All dishes"
+
+function filterMenu(database, category) {
+    const filteredDB = database.filter((item) =>
+        item[2] === category);
+    createMenu(filteredDB);
+}
+
+vegetarianBtn.addEventListener("click", () => {
+    filterMenu(menuDatabase, "vegetarian");
+});
+meatBtn.addEventListener("click", () => {
+    filterMenu(menuDatabase, "meat");
+});
+
+allDishesBtn.addEventListener("click", () => {
+    createMenu(menuDatabase);
+});
+
+document.body.appendChild(vegetarianBtn);
+document.body.appendChild(meatBtn);
+document.body.appendChild(allDishesBtn);
